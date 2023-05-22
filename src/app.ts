@@ -1,6 +1,7 @@
 import lng from "@lightningjs/core";
 import { Color } from "./constants/Color";
 import { Clock } from "./components/clock/Clock";
+import { Banner } from "./components/banner/Banner";
 
 export class App extends lng.Application {
   static _template() {
@@ -21,6 +22,9 @@ export class App extends lng.Application {
           fontSize: 20,
           fontFace: "TitilliumWeb",
         },
+      },
+      Banner: {
+        type: Banner,
       },
     };
   }
