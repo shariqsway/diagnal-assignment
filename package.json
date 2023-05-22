@@ -1,0 +1,21 @@
+{
+  "name": "diagnal-assignment",
+  "version": "1.0.0",
+  "description": "Content listing app developed using LightningJS and TypeScript.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild src/init.ts --bundle --sourcemap --outdir=./dist --target=chrome56",
+    "start": "npm run build -- --servedir=dist/"
+  },
+  "author": "Mohammad Shariq",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.17.19",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@lightningjs/core": "^2.10.0"
+  }
+}
