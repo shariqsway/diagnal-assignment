@@ -4,6 +4,13 @@ import { FontFace, FontWeight } from "./constants/Font";
 const fonts = [
   {
     fontName: FontFace.TitilliumWeb,
+    fileName: "TitilliumWeb-Light.ttf",
+    descriptors: {
+      weight: FontWeight.Light,
+    },
+  },
+  {
+    fontName: FontFace.TitilliumWeb,
     fileName: "TitilliumWeb-Regular.ttf",
     descriptors: {
       weight: FontWeight.Regular,
