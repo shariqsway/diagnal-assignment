@@ -17,6 +17,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@lightningjs/core": "^2.10.0"
+    "@lightningjs/core": "^2.10.0",
+    "@types/css-font-loading-module": "^0.0.8"
   }
 }
