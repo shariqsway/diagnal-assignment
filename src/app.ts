@@ -52,4 +52,16 @@ export class App extends lng.Application {
   _setup() {
     this._setState("RailState");
   }
+
+  /* Handle fireAncestors() from Portrait Card */
+  $updateBanner(title: string, description: string) {
+    this.tag("Banner").patch({
+      Title: {
+        text: title,
+      },
+      Description: {
+        text: description,
+      },
+    });
+  }
 }

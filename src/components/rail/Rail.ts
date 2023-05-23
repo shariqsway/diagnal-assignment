@@ -14,7 +14,7 @@ export class Rail extends lng.Component {
         y: 290,
         color: Color.text,
         text: {
-          text: "Romatic Comedy",
+          text: "",
           fontSize: 28,
           fontStyle: FontWeight.Regular,
           fontFace: "TitilliumWeb",
@@ -43,6 +43,7 @@ export class Rail extends lng.Component {
         h: number;
         src: string;
         label: string;
+        description: string;
       };
     };
 
@@ -62,6 +63,7 @@ export class Rail extends lng.Component {
           h: 237,
           src: `./static/images/${item["poster-image"]}`,
           label: item.name,
+          description: item.description,
         },
       });
     });

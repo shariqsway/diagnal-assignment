@@ -10,7 +10,7 @@ export class Banner extends lng.Component {
         y: 110,
         color: Color.text,
         text: {
-          text: "Rear Window",
+          text: "",
           fontSize: 28,
           fontStyle: FontWeight.Bold,
           fontFace: "TitilliumWeb",
@@ -22,7 +22,7 @@ export class Banner extends lng.Component {
         w: 600,
         color: Color.text,
         text: {
-          text: "When a struggling chef is unexpectedly reunited with her estranged family, she must learn to put aside their differences and work together to save their beloved restaurant from bankruptcy.",
+          text: "",
           fontSize: 25,
           fontFace: "TitilliumWeb",
           lineHeight: 30,
