@@ -12,6 +12,7 @@
   "author": "Mohammad Shariq",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.2.3",
     "esbuild": "^0.17.19",
     "typescript": "^5.0.4"
   },

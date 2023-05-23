@@ -2,6 +2,7 @@ import lng from "@lightningjs/core";
 import { Color } from "./constants/Color";
 import { Clock } from "./components/clock/Clock";
 import { Banner } from "./components/banner/Banner";
+import { Rail } from "./components/rail/Rail";
 
 export class App extends lng.Application {
   static _template() {
@@ -26,6 +27,29 @@ export class App extends lng.Application {
       Banner: {
         type: Banner,
       },
+      Rail: {
+        type: Rail,
+      },
     };
+  }
+
+  static _states() {
+    return [
+      class RailState extends this {
+        $enter() {
+          console.log("Rail - State Active");
+        }
+        $exit() {
+          console.log("Rail - State Inactive");
+        }
+        _getFocused(): this {
+          return this.tag("Rail");
+        }
+      },
+    ];
+  }
+
+  _setup() {
+    this._setState("RailState");
   }
 }
