@@ -96,6 +96,15 @@ export class PortraitCard extends lng.Component {
       this.tag("Label").text.text,
       this.tag("Description").text.text
     );
+
+    /* Focus animation */
+    const labelAnimation = this.tag("Label").animation({
+      duration: 0.3,
+      repeat: 0,
+      stopMethod: "immediate",
+      actions: [{ p: "y", v: { 0: 248, 1: 255 } }],
+    });
+    labelAnimation.start();
   }
 
   _unfocus() {
@@ -105,5 +114,14 @@ export class PortraitCard extends lng.Component {
         strokeColor: Color.text,
       },
     });
+
+    /* Unfocus animation */
+    const labelAnimation = this.tag("Label").animation({
+      duration: 0.3,
+      repeat: 0,
+      stopMethod: "",
+      actions: [{ p: "y", v: { 0: 255, 1: 248 } }],
+    });
+    labelAnimation.start();
   }
 }

@@ -33,4 +33,23 @@ export class Banner extends lng.Component {
       },
     };
   }
+
+  _init() {
+    /* Animate title and description on load */
+    const titleAnimation = this.tag("Title").animation({
+      duration: 0.5,
+      repeat: 0,
+      stopMethod: "immediate",
+      actions: [{ p: "x", v: { 0: 60, 1: 40 } }],
+    });
+    titleAnimation.start();
+
+    const descriptionAnimation = this.tag("Description").animation({
+      duration: 0.6,
+      repeat: 0,
+      stopMethod: "immediate",
+      actions: [{ p: "x", v: { 0: 80, 1: 40 } }],
+    });
+    descriptionAnimation.start();
+  }
 }
