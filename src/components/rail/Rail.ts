@@ -2,10 +2,38 @@ import lng from "@lightningjs/core";
 import { Color } from "../../constants/Color";
 import { FontWeight } from "../../constants/Font";
 import { PortraitCard } from "./PortraitCard";
+import {
+  dataPage1,
+  dataPage2,
+  dataPage3,
+  dataPage1Length,
+  dataPage2Length,
+  dataPage3Length,
+  dataPageTitle,
+} from "../../../data";
+
+type Card = {
+  type: typeof PortraitCard;
+  x: number;
+  item: {
+    src: string;
+    label: string;
+    description: string;
+  };
+};
+
+type Movie = {
+  name: string;
+  description: string;
+  "poster-image": string;
+};
 
 export class Rail extends lng.Component {
   _index: number = 0;
   _dataLength: number = 0;
+  _cardWidth: number = 158;
+  _cardGap: number = 12;
+  cards: Card[] = [];
 
   static _template() {
     return {
@@ -14,7 +42,7 @@ export class Rail extends lng.Component {
         y: 290,
         color: Color.text,
         text: {
-          text: "",
+          text: dataPageTitle,
           fontSize: 28,
           fontStyle: FontWeight.Regular,
           fontFace: "TitilliumWeb",
@@ -31,43 +59,21 @@ export class Rail extends lng.Component {
   }
 
   _init() {
-    const data = require("../../../data/page1.json").page["content-items"]
-      .content;
-    this._dataLength = data.length;
-
-    type Card = {
-      type: typeof PortraitCard;
-      x: number;
-      item: {
-        w: number;
-        h: number;
-        src: string;
-        label: string;
-        description: string;
-      };
-    };
-
-    type Movie = {
-      name: string;
-      description: string;
-      "poster-image": string;
-    };
-
-    const cards: Card[] = [];
-    data.map((item: Movie, index: number) => {
-      cards.push({
+    /* Load initial data from page 1 */
+    this._dataLength = dataPage1Length;
+    dataPage1.map((item: Movie, index: number) => {
+      this.cards.push({
         type: PortraitCard,
-        x: index * (158 + 12),
+        x: index * (this._cardWidth + this._cardGap),
         item: {
-          w: 158,
-          h: 237,
           src: `./static/images/${item["poster-image"]}`,
           label: item.name,
           description: item.description,
         },
       });
     });
-    this.tag("Wrapper").children = cards;
+    this.tag("Wrapper").children = this.cards;
+    this.handleLazyLoad();
   }
 
   get items() {
@@ -84,7 +90,7 @@ export class Rail extends lng.Component {
 
   _handleRight() {
     const previousIndex = this._index;
-    if (this._index === this._dataLength - 1) {
+    if (previousIndex === this._dataLength - 1) {
       this._index = 0;
     } else {
       this._index += 1;
@@ -95,17 +101,20 @@ export class Rail extends lng.Component {
 
   _handleLeft() {
     const previousIndex = this._index;
-    if (this._index === 0) {
-      this._index = this._dataLength - 1;
-    } else {
-      this._index -= 1;
+    if (previousIndex !== 0) {
+      if (previousIndex === 0) {
+        this._index = this._dataLength - 1;
+      } else {
+        this._index -= 1;
+      }
+      const newIndex = this._index;
+      this.handleSelection(previousIndex, newIndex);
     }
-    const newIndex = this._index;
-    this.handleSelection(previousIndex, newIndex);
   }
 
   private handleSelection(previousIndex: number, newIndex: number) {
     if (previousIndex !== newIndex) {
+      this.handleLazyLoad();
       this.handleScroll();
     }
   }
@@ -121,6 +130,46 @@ export class Rail extends lng.Component {
       wrapper.setSmooth("x", -currentFocus.x);
     } else if (currentFocusOuterWidth > contentW) {
       wrapper.setSmooth("x", contentW - currentFocusOuterWidth);
+    }
+  }
+
+  /* Lazy load the data as you scroll and about to reach the end of current data page */
+  handleLazyLoad() {
+    const cardIndex = this._index;
+    const totalCards = this.tag("Wrapper").children.length;
+    if (cardIndex === dataPage1Length - 1 && totalCards === dataPage1Length) {
+      this._dataLength = dataPage2Length + totalCards;
+      dataPage2.map((item: Movie, index: number) => {
+        const newIndex = totalCards + index;
+        this.cards.push({
+          type: PortraitCard,
+          x: newIndex * (this._cardWidth + this._cardGap),
+          item: {
+            src: `./static/images/${item["poster-image"]}`,
+            label: item.name,
+            description: item.description,
+          },
+        });
+      });
+      this.tag("Wrapper").children = this.cards;
+    } else if (
+      cardIndex === dataPage1Length + dataPage2Length - 1 &&
+      totalCards === dataPage1Length + dataPage2Length
+    ) {
+      this._dataLength = dataPage3Length + totalCards;
+      dataPage3.map((item: Movie, index: number) => {
+        const newIndex = totalCards + index;
+        this.cards.push({
+          type: PortraitCard,
+          x: newIndex * (this._cardWidth + this._cardGap),
+          item: {
+            src: `./static/images/${item["poster-image"]}`,
+            label: item.name,
+            description: item.description,
+          },
+        });
+      });
+      this.tag("Wrapper").children = this.cards;
     }
   }
 }
